@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import { FaLocationArrow } from "react-icons/fa6";
 
 import MagicButton from "./MagicButton";
@@ -73,4 +75,6 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+const NoSSR = dynamic(() => Promise.resolve(Hero), { ssr: false });
+
+export default NoSSR;;

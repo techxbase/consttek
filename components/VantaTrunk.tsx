@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -37,4 +39,6 @@ const VantaTrunk = () => {
   );
 };
 
-export default VantaTrunk;
+const NoSSR = dynamic(() => Promise.resolve(VantaTrunk), { ssr: false });
+
+export default NoSSR;;

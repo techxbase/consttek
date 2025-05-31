@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 "use client";
 
 import React from "react";
@@ -31,4 +33,6 @@ const PhaseCards: React.FC<PhaseCardsProps> = ({ phases }) => {
   );
 };
 
-export default PhaseCards;
+const NoSSR = dynamic(() => Promise.resolve(PhaseCards), { ssr: false });
+
+export default NoSSR;;

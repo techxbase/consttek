@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* "use client";
 
 import React, { useContext } from "react";
@@ -95,7 +97,9 @@ const ComplianceGraphs = () => {
   );
 };
 
-export default ComplianceGraphs;
+const NoSSR = dynamic(() => Promise.resolve(ComplianceGraphs), { ssr: false });
+
+export default NoSSR;;
  */
  
  

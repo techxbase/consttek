@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import React from "react";
 
 /**
@@ -41,4 +43,6 @@ const MagicButton = ({
   );
 };
 
-export default MagicButton;
+const NoSSR = dynamic(() => Promise.resolve(MagicButton), { ssr: false });
+
+export default NoSSR;;

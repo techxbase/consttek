@@ -432,4 +432,6 @@ const GridGlobe = () => {
     </div>
   );
 };
-export default GridGlobe;
+const NoSSR = dynamic(() => Promise.resolve(GridGlobe), { ssr: false });
+
+export default NoSSR;;

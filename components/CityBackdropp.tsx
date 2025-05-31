@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* // components/CityBackdrop.tsx
 "use client";
 
@@ -57,7 +59,9 @@ const CityBackdrop = () => {
   );
 };
 
-export default CityBackdrop;
+const NoSSR = dynamic(() => Promise.resolve(CityBackdrop), { ssr: false });
+
+export default NoSSR;;
  */
  
  

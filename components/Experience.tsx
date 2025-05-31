@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import React from "react";
 
 import { workExperience } from "@/data";
@@ -51,4 +53,6 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+const NoSSR = dynamic(() => Promise.resolve(Experience), { ssr: false });
+
+export default NoSSR;;

@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* // components/Heroes.tsx
 "use client";
 
@@ -71,7 +73,9 @@ const Heroes = () => {
   );
 };
 
-export default Heroes;
+const NoSSR = dynamic(() => Promise.resolve(Heroes), { ssr: false });
+
+export default NoSSR;;
  */
  
  // components/Heroes.tsx

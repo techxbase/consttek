@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import { gridItems } from "@/data";
 import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 
@@ -25,4 +27,6 @@ const Grid = () => {
   );
 };
 
-export default Grid;
+const NoSSR = dynamic(() => Promise.resolve(Grid), { ssr: false });
+
+export default NoSSR;;

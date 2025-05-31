@@ -439,7 +439,7 @@ export default Home;
  */
  
  
- 
+/*  
  "use client";
 
 import dynamic from "next/dynamic";
@@ -457,6 +457,60 @@ import Footer from "@/components/Footer";
 const Heroes = dynamic(() => import("@/components/Heroes"), { ssr: false });
 const AssistantAvatar = dynamic(() => import("@/components/AssistantAvatar"), { ssr: false });
 const CityBackdrop = dynamic(() => import("@/components/CityBackdrop"), { ssr: false });
+
+const Home = () => {
+  return (
+    <>
+      {/* 3D animated city background }
+      <div className="fixed inset-0 -z-50 pointer-events-none">
+        <CityBackdrop />
+      </div>
+
+      <main className="relative flex flex-col justify-center items-center bg-black-100 overflow-hidden mx-auto sm:px-10 px-5">
+        <div className="max-w-7xl w-full">
+          <FloatingNav navItems={navItems} />
+
+          <section id="hero"><Heroes /></section>
+          <AssistantAvatar />
+
+          <section id="compliance-uploads"><ComplianceUploads /></section>
+          <section id="compliance-carousel"><CClients /></section>
+          <section id="timeline"><Timeline /></section>
+          <section id="timeline-phase"><TimelinePhase /></section>
+          <section id="phase-cards"><ConstructionPhaseCards /></section>
+          <section id="compliance-graph"><ComplianceGraphs /></section>
+
+          <Footer />
+        </div>
+      </main>
+    </>
+  );
+};
+
+export default Home;
+ */
+ 
+ 
+ 
+ 
+ 
+ "use client";
+
+import dynamic from "next/dynamic";
+import { navItems } from "@/data";
+import { FloatingNav } from "@/components/ui/FloatingNavbar";
+
+// Lazy-load all components with SSR disabled to avoid document/window errors
+const Heroes = dynamic(() => import("@/components/Heroes"), { ssr: false });
+const AssistantAvatar = dynamic(() => import("@/components/AssistantAvatar"), { ssr: false });
+const CityBackdrop = dynamic(() => import("@/components/CityBackdrop"), { ssr: false });
+const ComplianceUploads = dynamic(() => import("@/components/ComplianceUploads"), { ssr: false });
+const CClients = dynamic(() => import("@/components/ComplianceCarousal"), { ssr: false });
+const Timeline = dynamic(() => import("@/components/Timeline"), { ssr: false });
+const TimelinePhase = dynamic(() => import("@/components/TimelinePhase"), { ssr: false });
+const ConstructionPhaseCards = dynamic(() => import("@/components/cphase"), { ssr: false });
+const ComplianceGraphs = dynamic(() => import("@/components/ComplianceGraph"), { ssr: false });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 const Home = () => {
   return (

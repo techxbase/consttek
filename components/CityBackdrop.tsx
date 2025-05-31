@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -81,7 +83,9 @@ const CityBackdrop = () => {
   );
 };
 
-export default CityBackdrop;
+const NoSSR = dynamic(() => Promise.resolve(CityBackdrop), { ssr: false });
+
+export default NoSSR;;
  */
 /* 
  "use client";

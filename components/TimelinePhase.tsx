@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* "use client";
 
 import React from "react";
@@ -110,7 +112,9 @@ const TimelinePhase = () => {
   );
 };
 
-export default TimelinePhase;
+const NoSSR = dynamic(() => Promise.resolve(TimelinePhase), { ssr: false });
+
+export default NoSSR;;
  */
  
  

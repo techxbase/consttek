@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* "use client";
 
 import React from "react";
@@ -78,7 +80,9 @@ const CClients = () => {
   );
 };
 
-export default CClients;
+const NoSSR = dynamic(() => Promise.resolve(CClients), { ssr: false });
+
+export default NoSSR;;
  */
  
  

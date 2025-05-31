@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
  "use client";
 
 import React from "react";
@@ -49,7 +51,9 @@ const Clients = () => {
   );
 };
 
-export default Clients;
+const NoSSR = dynamic(() => Promise.resolve(Clients), { ssr: false });
+
+export default NoSSR;;
 
  
  

@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* "use client";
 
 import Lottie from "lottie-react";
@@ -47,7 +49,9 @@ const AssistantAvatar = () => {
   );
 };
 
-export default AssistantAvatar;
+const NoSSR = dynamic(() => Promise.resolve(AssistantAvatar), { ssr: false });
+
+export default NoSSR;;
  */
  
  
@@ -831,7 +835,9 @@ const AssistantAvatar = () => {
 
 
   useEffect(() => {
-  const sections = Array.from(document.querySelectorAll("section[id]"));
+    if (typeof document !== "undefined") {
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+    }
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -975,7 +981,9 @@ const AssistantAvatar = () => {
   };
 
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll("section[id]"));
+    if (typeof document !== "undefined") {
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -1070,7 +1078,7 @@ export default AssistantAvatar;
  */
   
  
- "use client";
+/*  "use client";
 
 import Lottie from "lottie-react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
@@ -1117,8 +1125,10 @@ const AssistantAvatar = () => {
     // Optionally: trigger chatbot backend handler here
   };
 
-  useEffect(() => {
-    const sections = Array.from(document.querySelectorAll("section[id]"));
+/*   useEffect(() => {
+    if (typeof document !== "undefined") {
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -1137,6 +1147,64 @@ const AssistantAvatar = () => {
     );
 
     sections.forEach((section) => observer.observe(section));
+ 
+ //
+	useEffect(() => {
+  let sections: HTMLElement[] = [];
+
+  if (typeof document !== "undefined") {
+    sections = Array.from(document.querySelectorAll("section[id]"));
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (id && sectionMessages[id]) {
+            setBubble(sectionMessages[id]);
+            triggerChatbotReply(id);
+            if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
+            bubbleTimer.current = setTimeout(() => setBubble(""), 5000);
+          }
+        }
+      }
+    },
+    { threshold: 0.6 }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+
+  // Fallback scroll logic
+  const handleScroll = () => {
+    let closestId = "";
+    let minDistance = window.innerHeight;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const distance = Math.abs(rect.top);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestId = section.id;
+      }
+    });
+
+    if (closestId && sectionMessages[closestId]) {
+      setBubble(sectionMessages[closestId]);
+      triggerChatbotReply(closestId);
+      if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
+      bubbleTimer.current = setTimeout(() => setBubble(""), 5000);
+		}
+	  };
+
+	  window.addEventListener("scroll", handleScroll, { passive: true });
+
+	  return () => {
+		observer.disconnect();
+		window.removeEventListener("scroll", handleScroll);
+	  };
+	}, []);
+
 
     // Fallback scroll logic
     const handleScroll = () => {
@@ -1201,8 +1269,128 @@ const AssistantAvatar = () => {
   );
 };
 
-export default AssistantAvatar;
+export default AssistantAvatar; */
+ //----
  
+ "use client";
+
+import Lottie from "lottie-react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import botFlying from "@/public/lottie/cb.json";
+
+const sectionMessages: Record<string, string> = {
+  hero: "Welcome! 🚁",
+  "compliance-uploads": "Need help uploading files? 📂",
+  "compliance-carousel": "Compliance insights incoming 📊",
+  timeline: "Here's the full timeline ⏳",
+  "timeline-phase": "Phase breakdown in progress 🏗️",
+  "phase-cards": "Reviewing strategy details 🧾",
+  "compliance-graph": "Rendering graphs... 📈",
+};
+
+const AssistantAvatar = () => {
+  const { scrollYProgress } = useScroll();
+
+  const x = useSpring(
+    useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], ["50%", "40%", "0%", "110%", "-50%"]),
+    { stiffness: 40, damping: 20 }
+  );
+  const y = useSpring(
+    useTransform(scrollYProgress, [0, 0.3, 0.7, 1], ["-20%", "50%", "0%", "-30%"]),
+    { stiffness: 35, damping: 18 }
+  );
+  const scale = useSpring(
+    useTransform(scrollYProgress, [0, 0.25, 0.5, 0.75, 1], [1.8, 1.4, 1.2, 1.05, 0.6]),
+    { stiffness: 50, damping: 15 }
+  );
+  const rotate = useTransform(scrollYProgress, [0, 1], ["-20deg", "30deg"]);
+  const blur = useSpring(
+    useTransform(scrollYProgress, [0, 0.5, 1], ["2px", "0px", "2px"]),
+    { stiffness: 40, damping: 10 }
+  );
+
+  const [bubble, setBubble] = useState("👋 Welcome!");
+  const bubbleTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const triggerChatbotReply = (id: string) => {
+    console.log(`💬 Chatbot triggered for section: ${id}`);
+    // Optionally call backend chatbot logic
+  };
+
+  useEffect(() => {
+    let sections: HTMLElement[] = [];
+
+    if (typeof document !== "undefined") {
+      sections = Array.from(document.querySelectorAll("section[id]"));
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            const id = (entry.target as HTMLElement).id;
+            if (id && sectionMessages[id]) {
+              setBubble(sectionMessages[id]);
+              triggerChatbotReply(id);
+              if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
+              bubbleTimer.current = setTimeout(() => setBubble(""), 5000);
+            }
+          }
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  const handleClick = () => {
+    setBubble("💬 Need help? Ask away!");
+    triggerChatbotReply("clicked");
+    if (bubbleTimer.current) clearTimeout(bubbleTimer.current);
+    bubbleTimer.current = setTimeout(() => setBubble(""), 5000);
+  };
+
+  return (
+    <motion.div
+      style={{ x, y, scale, rotate, filter: blur }}
+      onClick={handleClick}
+      className="fixed z-50 w-24 h-24 bottom-10 left-10 cursor-pointer pointer-events-auto"
+    >
+      <div className="relative perspective-1000">
+        <Lottie animationData={botFlying} loop className="w-full h-full" />
+        {bubble && (
+          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-white text-black text-xs px-3 py-1 rounded-full shadow-md animate-fade">
+            {bubble}
+          </div>
+        )}
+      </div>
+      <style jsx>{`
+        @keyframes fade {
+          0%, 100% { opacity: 0; }
+          10%, 90% { opacity: 1; }
+        }
+        .animate-fade {
+          animation: fade 5s ease-in-out;
+        }
+      `}</style>
+    </motion.div>
+  );
+};
+
+export default AssistantAvatar;
+
+ 
+ 
+ 
+ 
+ 
+ //------
 /*
  
  "use client";
@@ -1266,7 +1454,9 @@ const AssistantAvatar = () => {
   };
 
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll("section[id]"));
+    if (typeof document !== "undefined") {
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -1412,7 +1602,9 @@ const AssistantAvatar = () => {
   };
 
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll("section[id]"));
+    if (typeof document !== "undefined") {
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+    }
     const triggered = new Set<string>();
 
     const observer = new IntersectionObserver(

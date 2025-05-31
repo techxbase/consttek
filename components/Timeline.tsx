@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* // components/Timeline.tsx
 "use client";
 
@@ -37,7 +39,10 @@ const SAMPLE_ENTRIES = [
   },
 ];
 
-export default function Timeline() {
+function Timeline() {
+const NoSSR = dynamic(() => Promise.resolve(Timeline), { ssr: false });
+export default NoSSR;
+
   return (
     <section className="py-20 bg-[#0f172a] text-white">
       <h2 className="text-4xl font-bold text-center mb-10">📌 Compliance Timeline</h2>

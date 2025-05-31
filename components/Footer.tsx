@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import { FaLocationArrow } from "react-icons/fa6";
 
 import { socialMedia } from "@/data";
@@ -52,4 +54,6 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+const NoSSR = dynamic(() => Promise.resolve(Footer), { ssr: false });
+
+export default NoSSR;;

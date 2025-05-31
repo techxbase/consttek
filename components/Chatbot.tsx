@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 "use client";
 
 import React, { useState } from "react";
@@ -53,4 +55,6 @@ const Chatbot = () => {
   );
 };
 
-export default Chatbot;
+const NoSSR = dynamic(() => Promise.resolve(Chatbot), { ssr: false });
+
+export default NoSSR;;

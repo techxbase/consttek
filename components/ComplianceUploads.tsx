@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* "use client";
 
 import React, { useState, useEffect } from "react";
@@ -29,7 +31,10 @@ function csvToJson(csv: string): ComplianceRow[] {
   });
 }
 
-export default function ComplianceUploads() {
+function ComplianceUploads() {
+const NoSSR = dynamic(() => Promise.resolve(ComplianceUploads), { ssr: false });
+export default NoSSR;
+
   const [data, setData] = useState<ComplianceRow[]>(csvToJson(SAMPLE_CSV));
   const [keywords, setKeywords] = useState<string[]>([]);
   const [filter, setFilter] = useState<"all" | "compliant" | "noncompliant">("all");

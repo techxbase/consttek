@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 /* /* import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
@@ -52,7 +54,9 @@ const ConstructionPhaseCards = () => {
   );
 };
 
-export default ConstructionPhaseCards;
+const NoSSR = dynamic(() => Promise.resolve(ConstructionPhaseCards), { ssr: false });
+
+export default NoSSR;;
 
 const Card = ({ title, icon, children, des }) => {
   const [hovered, setHovered] = React.useState(false);

@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic';
+
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -65,7 +67,9 @@ const Approach = () => {
   );
 };
 
-export default Approach;
+const NoSSR = dynamic(() => Promise.resolve(Approach), { ssr: false });
+
+export default NoSSR;;
 
 const Card = ({
   title,

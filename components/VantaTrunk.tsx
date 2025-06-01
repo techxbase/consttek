@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic';
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-//import * as THREE from "three";
-import TRUNK from "@/lib/vanta/trunk";
+import * as THREE from "three";
+//import TRUNK from "@/lib/vanta/trunk";
 //import p5 from "p5"; // Make sure p5 is globally available
 
 const VantaTrunk = () => {

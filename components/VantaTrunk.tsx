@@ -10,7 +10,7 @@ import * as THREE from "three";
 const VantaTrunk = () => {
   const vantaRef = useRef<HTMLDivElement>(null);
   const [vantaEffect, setVantaEffect] = useState<any>(null);
-
+/*
   useEffect(() => {
     if (!vantaEffect && vantaRef.current) {
       setVantaEffect(
@@ -38,7 +38,7 @@ const VantaTrunk = () => {
     />
   );
 };
-
+*/
 const NoSSR = dynamic(() => Promise.resolve(VantaTrunk), { ssr: false });
 
 export default NoSSR;;
